@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سؤال مهم 💌</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
+
+  :root{
+    --plum:#3b1224;
+    --rose:#e05a7a;
+    --rose-deep:#c23a5c;
+    --peach:#ffd7b5;
+    --cream:#fff6ee;
+  }
+
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Tajawal', sans-serif;
+    background: radial-gradient(circle at 30% 20%, #ffb6c9 0%, var(--rose) 40%, var(--plum) 100%);
+    overflow:hidden;
+    position:relative;
+  }
+
+  .heart{
+    position:absolute;
+    opacity:0.35;
+    animation: float 8s ease-in-out infinite;
+    color:#fff;
+    user-select:none;
+  }
+
+  @keyframes float{
+    0%,100%{ transform: translateY(0) rotate(0deg); }
+    50%{ transform: translateY(-30px) rotate(10deg); }
+  }
+
+  .card{
+    background: var(--cream);
+    border-radius: 28px;
+    padding: 48px 36px;
+    max-width: 420px;
+    width: 90%;
+    text-align:center;
+    box-shadow: 0 30px 60px rgba(59,18,36,0.45);
+    position:relative;
+    z-index:2;
+    animation: pop 0.6s cubic-bezier(.2,1.4,.4,1);
+  }
+
+  @keyframes pop{
+    from{ transform: scale(0.7); opacity:0; }
+    to{ transform: scale(1); opacity:1; }
+  }
+
+  .eyebrow{
+    color: var(--rose-deep);
+    font-weight:700;
+    letter-spacing:2px;
+    font-size:13px;
+    text-transform:uppercase;
+    margin-bottom:10px;
+  }
+
+  h1{
+    color: var(--plum);
+    font-size: clamp(22px, 5vw, 30px);
+    font-weight:900;
+    margin: 0 0 12px;
+    line-height:1.5;
+  }
+
+  p.sub{
+    color:#7a4a58;
+    font-size:15px;
+    margin:0 0 30px;
+  }
+
+  .buttons{
+    display:flex;
+    justify-content:center;
+    gap:18px;
+    position:relative;
+    min-height:70px;
+    align-items:center;
+  }
+
+  button{
+    border:none;
+    border-radius:999px;
+    padding:16px 34px;
+    font-family:'Tajawal', sans-serif;
+    font-weight:700;
+    font-size:17px;
+    cursor:pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  #yes{
+    background: linear-gradient(135deg, var(--rose), var(--rose-deep));
+    color:#fff;
+    box-shadow: 0 10px 24px rgba(224,90,122,0.5);
+  }
+
+  #yes:hover{
+    transform: scale(1.08);
+  }
+
+  #no{
+    background: #f1e4e8;
+    color:#8a5a68;
+    position:relative;
+  }
+
+  .result{
+    display:none;
+    animation: pop 0.5s cubic-bezier(.2,1.4,.4,1);
+  }
+
+  .result.show{
+    display:block;
+  }
+
+  .result h2{
+    color: var(--plum);
+    font-size: clamp(24px, 6vw, 32px);
+    margin: 10px 0;
+  }
+
+  .result p{
+    color:#7a4a58;
+    font-size:15px;
+  }
+
+  .emoji-big{
+    font-size:50px;
+  }
+
+  #question-block.hide{
+    display:none;
+  }
+
+  .field{
+    text-align:right;
+    margin-bottom:16px;
+  }
+
+  .field label{
+    display:block;
+    color:#7a4a58;
+    font-weight:700;
+    font-size:14px;
+    margin-bottom:6px;
+  }
+
+  .field input{
+    width:100%;
+    padding:12px 14px;
+    border-radius:14px;
+    border:2px solid #f1cdd6;
+    font-family:'Tajawal', sans-serif;
+    font-size:15px;
+    color:var(--plum);
+    background:#fff;
+  }
+
+  .field input:focus{
+    outline:none;
+    border-color:var(--rose);
+  }
+
+  .wide-btn{
+    width:100%;
+    background: linear-gradient(135deg, var(--rose), var(--rose-deep));
+    color:#fff;
+    box-shadow: 0 10px 24px rgba(224,90,122,0.5);
+    margin-top:8px;
+  }
+
+  .wide-btn:hover{
+    transform: scale(1.03);
+  }
+
+  .food-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:14px;
+    margin-top:20px;
+  }
+
+  .food-card{
+    background:#fff;
+    border:2px solid #f1e0e5;
+    border-radius:18px;
+    padding:16px 8px;
+    cursor:pointer;
+    transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    color:var(--plum);
+    font-weight:700;
+    font-size:14px;
+  }
+
+  .food-card:hover{
+    transform: translateY(-3px);
+    border-color: var(--rose);
+  }
+
+  .food-card.selected{
+    background: linear-gradient(135deg, #ffe0e8, #ffd0dc);
+    border-color: var(--rose-deep);
+  }
+
+  .food-emoji{
+    font-size:36px;
+    margin-bottom:6px;
+  }
+
+  .place-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin-top:20px;
+  }
+
+  .place-card{
+    background:#fff;
+    border:2px solid #f1e0e5;
+    border-radius:16px;
+    padding:14px;
+    cursor:pointer;
+    transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    color:var(--plum);
+    font-weight:700;
+    font-size:16px;
+  }
+
+  .place-card:hover{
+    transform: translateY(-2px);
+    border-color: var(--rose);
+  }
+
+  .place-card.selected{
+    background: linear-gradient(135deg, #ffe0e8, #ffd0dc);
+    border-color: var(--rose-deep);
+  }
+
+  .place-note{
+    font-size:11px;
+    font-weight:400;
+    color:#a97887;
+    margin-top:4px;
+  }
+</style>
+
+</head>
+<body>
+
+<iframe id="bgMusic"
+  style="position:fixed; top:-100px; left:-100px; width:1px; height:1px; opacity:0; pointer-events:none;"
+  allow="autoplay">
+</iframe>
+
+<div class="card">
+
+  <div id="question-block">
+    <div class="eyebrow">سؤال صغير و مهم</div>
+    <h1>بتوافقي تطلعي معي بموعد؟ 🌹</h1>
+    <p class="sub">فكر فيها كتير قبل ما اسألك... بس الجواب أكيد رح يكون حلو 😊</p>
+    <div class="buttons">
+      <button id="yes" onclick="sayYes()">أكيد! 💕</button>
+      <button id="no" onpointerenter="dodge()" onpointerdown="dodge(event)" ontouchstart="dodge(event)" onclick="dodge(event)">لأ</button>
+    </div>
+  </div>
+
+  <div class="result" id="result">
+    <div class="emoji-big">🎉💍💃</div>
+    <h2>يـسّ! خلص، موعدنا صار رسمي</h2>
+    <p>احددي بس إيمتى بتكوني فاضية 👇</p>
+
+    <div class="field">
+      <label for="dateInput">التاريخ</label>
+      <input type="date" id="dateInput">
+    </div>
+    <div class="field">
+      <label for="timeInput">الساعة</label>
+      <input type="time" id="timeInput">
+    </div>
+
+    <button id="dateNext" class="wide-btn" onclick="goToFood()">التالي 💌</button>
+  </div>
+
+  <div class="result" id="foodBlock">
+    <div class="eyebrow">آخر سؤال</div>
+    <h1 style="font-size:22px;">شو حابة ناكل؟ 🍽️</h1>
+    <div class="food-grid">
+      <div class="food-card" onclick="selectFood(this,'Pizza')">
+        <div class="food-emoji">🍕</div>
+        <div>Pizza</div>
+      </div>
+      <div class="food-card" onclick="selectFood(this,'Sushi')">
+        <div class="food-emoji">🍣</div>
+        <div>Sushi</div>
+      </div>
+      <div class="food-card" onclick="selectFood(this,'Burger')">
+        <div class="food-emoji">🍔</div>
+        <div>Burger</div>
+      </div>
+      <div class="food-card" onclick="selectFood(this,'Pasta')">
+        <div class="food-emoji">🍝</div>
+        <div>Pasta</div>
+      </div>
+      <div class="food-card" onclick="selectFood(this,'Shawarma & Fries')">
+        <div class="food-emoji">🌯</div>
+        <div>Shawarma & Fries</div>
+      </div>
+      <div class="food-card" onclick="selectFood(this,'Fish')">
+        <div class="food-emoji">🐟</div>
+        <div>Fish</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="result" id="placeBlock">
+    <div class="eyebrow">سؤال أخير</div>
+    <h1 style="font-size:22px;">وين حابة نروح؟ 📍</h1>
+    <div class="place-list">
+      <div class="place-card" onclick="selectPlace(this,'كراكاس')">كراكاس</div>
+      <div class="place-card" onclick="selectPlace(this,'ASA')">ASA</div>
+      <div class="place-card" onclick="selectPlace(this,'حبة مسك')">حبة مسك</div>
+      <div class="place-card" onclick="selectPlace(this,'سنسيشن')">سنسيشن</div>
+      <div class="place-card" onclick="selectPlace(this,'عالكورنيش')">
+        عالكورنيش
+        <div class="place-note">صعبة بعرف، قلت بجرب 🥲</div>
+      </div>
+      <div class="place-card" onclick="selectPlace(this,'عالقامشلي')">عالقامشلي</div>
+    </div>
+  </div>
+
+  <div class="result" id="thanksBlock">
+    <div class="emoji-big">💖</div>
+    <h2>شكراً لأنك وافقتي</h2>
+    <p style="font-weight:700; color:var(--rose-deep);" id="summaryText"></p>
+    <p>وجهزي حالك مشان اجي آخدك كمان إذا بتحبي 😍</p>
+    <button id="okBtn" class="wide-btn" onclick="okConfirm()">أوكي موافقة 💗</button>
+  </div>
+
+  <div class="result" id="finalBlock">
+    <div class="emoji-big">🕺</div>
+    <h2>يعطيك العافية، عن اذنك رح جهز حالي</h2>
+    <button class="wide-btn" onclick="sendWhatsapp()">ابعتيلو جوابك 💌</button>
+  </div>
+
+</div>
+
+
+<script>
+  let musicStarted = false;
+  function startMusic(){
+    if(musicStarted) return;
+    musicStarted = true;
+    document.getElementById("bgMusic").src =
+      "https://www.youtube.com/embed/xkqfm3muuhM?autoplay=1&loop=1&playlist=xkqfm3muuhM&controls=0";
+  }
+  document.addEventListener("click", startMusic, { once:true });
+  document.addEventListener("touchstart", startMusic, { once:true });
+
+  // floating hearts background
+  const heartsContainer = document.body;
+  const heartSymbols = ["❤","💕","💖","💗"];
+  for(let i=0;i<18;i++){
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.textContent = heartSymbols[Math.floor(Math.random()*heartSymbols.length)];
+    h.style.left = Math.random()*100+"vw";
+    h.style.top = Math.random()*100+"vh";
+    h.style.fontSize = (16+Math.random()*30)+"px";
+    h.style.animationDelay = (Math.random()*5)+"s";
+    h.style.animationDuration = (6+Math.random()*4)+"s";
+    heartsContainer.appendChild(h);
+  }
+
+  const noBtn = document.getElementById("no");
+  const buttonsBox = document.querySelector(".buttons");
+
+  function dodge(e){
+    if(e){
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    const boxRect = buttonsBox.getBoundingClientRect();
+    const btnRect = noBtn.getBoundingClientRect();
+
+    const maxX = boxRect.width - btnRect.width - 10;
+    const maxY = boxRect.height - btnRect.height - 10;
+
+    // always move a meaningful distance so it never overlaps the tap point
+    const randX = (Math.random() > 0.5 ? 1 : -1) * (maxX*0.3 + Math.random()*maxX*0.4);
+    const randY = (Math.random() > 0.5 ? 1 : -1) * (maxY*0.3 + Math.random()*maxY*0.4);
+
+    noBtn.style.position = "absolute";
+    noBtn.style.left = "50%";
+    noBtn.style.top = "50%";
+    noBtn.style.transform = `translate(calc(-50% + ${randX}px), calc(-50% + ${randY}px))`;
+  }
+
+  function sayYes(){
+    document.getElementById("question-block").classList.add("hide");
+    document.getElementById("result").classList.add("show");
+  }
+
+  let chosenFood = "";
+
+  function goToFood(){
+    const dateVal = document.getElementById("dateInput").value;
+    const timeVal = document.getElementById("timeInput").value;
+    if(!dateVal || !timeVal){
+      alert("اختاري التاريخ والساعة الأول 💌");
+      return;
+    }
+    document.getElementById("result").classList.remove("show");
+    document.getElementById("foodBlock").classList.add("show");
+  }
+
+  function selectFood(el, name){
+    document.querySelectorAll(".food-card").forEach(c => c.classList.remove("selected"));
+    el.classList.add("selected");
+    chosenFood = name;
+
+    setTimeout(()=>{
+      document.getElementById("foodBlock").classList.remove("show");
+      document.getElementById("placeBlock").classList.add("show");
+    }, 350);
+  }
+
+  let chosenPlace = "";
+
+  function selectPlace(el, name){
+    document.querySelectorAll(".place-card").forEach(c => c.classList.remove("selected"));
+    el.classList.add("selected");
+    chosenPlace = name;
+
+    setTimeout(()=>{
+      const dateVal = document.getElementById("dateInput").value;
+      const timeVal = document.getElementById("timeInput").value;
+      const dateObj = new Date(dateVal + "T" + timeVal);
+      const dateStr = dateObj.toLocaleDateString('ar-EG', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+      document.getElementById("summaryText").textContent = `📅 ${dateStr} — 🕒 ${timeVal} — 🍽️ ${chosenFood} — 📍 ${chosenPlace}`;
+
+      document.getElementById("placeBlock").classList.remove("show");
+      document.getElementById("thanksBlock").classList.add("show");
+    }, 350);
+  }
+
+  function okConfirm(){
+    document.getElementById("thanksBlock").classList.remove("show");
+    document.getElementById("finalBlock").classList.add("show");
+  }
+
+  function sendWhatsapp(){
+    const dateVal = document.getElementById("dateInput").value;
+    const timeVal = document.getElementById("timeInput").value;
+    const dateObj = new Date(dateVal + "T" + timeVal);
+    const dateStr = dateObj.toLocaleDateString('ar-EG', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+
+    const msg = `وافقت على الموعد 💕\n📅 ${dateStr}\n🕒 ${timeVal}\n🍽️ ${chosenFood}\n📍 ${chosenPlace}`;
+    const phone = "963930210483";
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+    window.open(url, "_blank");
+  }
+</script>
+
+
+</body>
+</html>
